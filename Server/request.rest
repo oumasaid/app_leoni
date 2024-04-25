@@ -1,0 +1,167 @@
+//Create a User 
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "firstname" : "M Zied ",
+    "lastName":"brichni",
+    "email": "admin@leoni.com",
+    "password":"123456",
+    "confPassword":"123456",
+    "role": "admin"
+}
+
+### 
+//get all users 
+
+GET http://localhost:5000/users
+##################
+
+// Get single User
+
+GET  http://localhost:5000/users/dc46d6ac-af66-43e7-8c80-88665284b1d1
+
+##########
+
+// update a user 
+PATCH  http://localhost:5000/users/dc46d6ac-af66-43e7-8c80-88665284b1d1
+Content-Type: application/json
+
+{
+    "name" : "oumaima updated ",
+    "email": "oumaima@leoni.com",
+    "password":"",
+    "confPassword":"",
+    "role": "user"
+}
+###########3
+
+// Delete a user
+
+DELETE http://localhost:5000/users/f9358c7b-d272-4592-aa4b-dfd47b3ca35f
+
+##########
+// Login user
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    
+    "email": "admin@leoni.com",
+    "password":"123456"
+}
+
+#######
+GET http://localhost:5000/me
+
+#########
+//logout
+DELETE http://localhost:5000/logout
+
+
+#######
+//post Data product
+
+DELETE http://localhost:5000/products/26e2abc5-db30-4b59-ad29-4a054c5f7568
+#########
+//get all machines
+GET http://localhost:5000/machines
+
+
+#########
+// get single machines 
+GET  http://localhost:5000/machines/3208376a-2ea6-4292-b762-cb566ebe1321
+
+
+#######
+//post machines
+
+POST http://localhost:5000/machines
+Content-Type: application/json
+
+{
+    
+    "name" : "VMIR",
+    "supplier":"Mecalbi",
+    "shrinkCategory": "multiple",
+    "category": 3
+}
+
+#######
+//post Data product
+
+PATCH  http://localhost:5000/machines/3f423ee6-eb29-4a36-bacd-6911fcf609bd
+Content-Type: application/json
+
+{
+    
+   "name" : "VMIR",
+    "supplier":"Mecalbi",
+    "shrinkCategory": "multiple",
+    "category": 2
+}
+
+#######
+//post wires
+
+POST http://localhost:5000/wires
+Content-Type: application/json
+
+{
+    "type":"FLRY-A",
+     "crossSection":"0.13" , 
+     "insulationMaterial": "PVC (Polyvinyl Chloride)"
+}
+#########
+//get all wires
+GET http://localhost:5000/wires
+#######
+//post Data wires
+
+DELETE http://localhost:5000/wires/d0f2f154-9f9e-4fc3-8919-bf8d9e5a2177
+
+
+### 
+//get all users 
+
+GET http://localhost:5000/wires
+
+
+#########
+//get all mwelding
+POST http://localhost:5000/weldings
+Content-Type: application/json
+
+{
+    "model":"Schunk MINIC II" ,
+    "supplier":"Schunk"
+}
+
+#########
+//get all shrinksleeves
+POST http://localhost:5000/shrinksleeves
+Content-Type: application/json
+
+{
+    "name:": "Leoni",
+    "supplier": "DSG",
+    "type": "End Splice",
+    "Designation": "SPLCM-KAPPE 6-1,4/1,45 TR L=35mm",
+    "pn":"499209812 (DSG1)",
+    "suppliedDiameter": 6,
+    "recoveredDiameter": 1.4,
+    "dNet": 4.6,
+    "varMin": 0.92,
+    "varMax":3.68 ,
+    "minBundleSize": 2.32,
+    "minSizeProg": 2.32,
+    "maxBundleSize": 5.08
+}
+
+#########
+//post machines
+
+POST http://localhost:5000/glue
+
+

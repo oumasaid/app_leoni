@@ -1,0 +1,21 @@
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 2; /* Ensure the header stays above other content */
+    background-color: #f9f9f9; /* Background color for the sticky header */
+}
+
+.sticky-actions {
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Ensure actions stay above other content but below header */
+    background-color: white; /* Background color for the sticky actions */
+}
+.table-container{
+    background-color: white; /* Background color for the sticky actions */
+
+}
+.add-button-container {
+    text-align: right;
+  }
+  
