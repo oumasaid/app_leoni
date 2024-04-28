@@ -7,8 +7,10 @@ import dotenv from "dotenv";
 import UserRoute from "./routes/UserRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
 import MachineRoute from "./routes/MachineRoute.js";
+import FormRoute from "./routes/FormRoute.js";
 import path from "path"; // Import path module
 import { fileURLToPath } from 'url';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -24,15 +26,14 @@ const store = new sessionStore({
     await db.sync()
 ))();
 
+app.use(cookieParser("your_secret_key"));
+
+
 app.use(session({
-    secret: process.env.SESS_SECRET,
+    secret: "your_secret_key",
     resave: false,
-    saveUninitialized: true,
-    store: store,
-    cookie: {
-        secure: 'auto'
-    }
-}));
+    saveUninitialized: false
+})); 
 
 app.use(cors({
     credentials: true,
@@ -48,6 +49,7 @@ app.use('/uploads', express.static(__dirname +'/uploads'));
 app.use(UserRoute);
 app.use(AuthRoute);
 app.use(MachineRoute);
+app.use(FormRoute);
 
 store.sync();
 

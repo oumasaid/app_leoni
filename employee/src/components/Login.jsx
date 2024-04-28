@@ -21,6 +21,7 @@ const Login = () => {
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
+        console.log("Token set:", response.data.token);
         navigate("/dashboard");
       } else {
         throw new Error("Failed to login");

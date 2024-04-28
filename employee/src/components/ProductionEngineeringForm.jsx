@@ -5,9 +5,13 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { getMachineNames } from "../services/apiService.js";
+// import { getMachineNames } from "../services/apiService.js";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function ProductionEngineeringForm({ onSubmit }) {
+
+function ProductionEngineeringForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     setupParameters: {
       PR: {
@@ -35,19 +39,49 @@ function ProductionEngineeringForm({ onSubmit }) {
     },
   });
   const [machineNames, setMachineNames] = useState([]);
+  const [token, setToken] = useState(""); 
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    console.log("Stored Token:", storedToken); // Check if the token is retrieved correctly
+
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
 
   useEffect(() => {
     const fetchMachineNames = async () => {
+
+      if (!token) {
+        console.log("Token is empty. Skipping fetch request.");
+        return;
+      }
+
       try {
-        const names = await getMachineNames();
-        setMachineNames(names);
+        const response = await fetch("http://localhost:5000/machines", {
+          headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+      console.log("Request Headers:", response.headers);
+        if (response.ok) {
+          const data = await response.json();
+          setMachineNames(data);
+        } else {
+          console.error("Failed to fetch machines:", response.status, response.statusText);
+        }
       } catch (error) {
-        console.error("Error fetching machine names:", error);
+        console.error("Error fetching machines:", error);
       }
     };
 
-    fetchMachineNames();
-  }, []);
+    if (token && token.trim() !== "") {
+      fetchMachineNames();
+    }
+
+  }, [token]);
 
   const handleCheckboxChange = (category, subCategory, field) => {
     setFormData((prevState) => {
@@ -75,6 +109,7 @@ function ProductionEngineeringForm({ onSubmit }) {
       ...prevState,
       [name]: value,
     }));
+    console.log(formData)
   };
 
   const handleDateChange = (value) => {
@@ -122,11 +157,40 @@ function ProductionEngineeringForm({ onSubmit }) {
     }));
   };
 
-  const handleSubmit = (e, data) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // onSubmit(formData);  
+  //   console.log(formData);
+  // };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // onSubmit(formData);  
-    console.log(data);
+
+    const modifiedData = { ...formData };
+
+
+    console.log(modifiedData);
+    axios({
+      method: "POST",
+      data: modifiedData,
+      withCredentials: true,
+      url: "http://localhost:5000/shrinkform",
+      headers: {
+      Authorization: `Bearer ${token}`, 
+    },
+    })
+
+      .then((res) => {
+        console.log(res);
+        if (res.data.Login) {
+          navigate("/"); 
+        }
+      })
+      .catch((anError) => {
+        console.error(anError);
+      });
   };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     console.log("Fichier sélectionné:", file);
